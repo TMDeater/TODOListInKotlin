@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.msi.todolistinkotlin.MainActivity">
+
+    <EditText
+        android:id="@+id/input_box"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginTop="10dp"/>
+    
+    <TextView
+        android:id="@+id/add_item_button"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/input_box"
+        android:textSize="18dp"
+        android:gravity="center"
+        android:text="Add a TODO"
+        android:textColor="@android:color/white"
+        android:background="@android:color/holo_purple"
+        android:layout_margin="5dp" />
+
+    <TextView
+        android:id="@+id/complete_item_button"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/add_item_button"
+        android:textSize="18dp"
+        android:gravity="center"
+        android:text="Click to see completed task"
+        android:textColor="@android:color/white"
+        android:background="@android:color/holo_orange_dark"
+        android:layout_margin="5dp" />
+
+    <TextView
+        android:id="@+id/tutorial"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/complete_item_button"
+        android:text="*Click to mark an item as completed\n*Long press an item to remove from list"/>
+    
+    <ListView
+        android:id="@+id/todolist"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/tutorial"
+        android:dividerHeight="0.1dp"
+        android:divider="#0000CC"></ListView>
+
+</RelativeLayout>
