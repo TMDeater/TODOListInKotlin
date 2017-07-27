@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         title = "TODO list"
+        context = this
 
         inputBox = findViewById(R.id.input_box) as EditText
         addItemBtn = findViewById(R.id.add_item_button) as TextView
@@ -31,11 +32,6 @@ class MainActivity : AppCompatActivity() {
         tutorialText = findViewById(R.id.tutorial) as TextView
         lv = findViewById(R.id.todolist) as ListView
 
-        (addItemBtn as TextView).setOnClickListener ( object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                addItem()
-            }
-        })
         (completeItemBtn as TextView).setOnClickListener(object: View.OnClickListener{
             override fun onClick(v: View?) {
                 ToCompletePage()
@@ -49,11 +45,11 @@ class MainActivity : AppCompatActivity() {
         loadTODO()
 
         arrAdapter = ArrayAdapter(context!!, android.R.layout.simple_list_item_1, todoList!!)
-        
+
         lv!!.adapter = arrAdapter
         lv!!.onItemLongClickListener = AdapterView.OnItemLongClickListener { parent, view, position, id ->
             RemoveTODO(position)
-            false
+            true
         }
         lv!!.onItemClickListener =AdapterView.OnItemClickListener { parent, view, position, id ->
             completedTODO!!.add(todoList!![position])
@@ -62,11 +58,18 @@ class MainActivity : AppCompatActivity() {
             val file = File(path, "complete.txt")
             val writer = BufferedWriter(FileWriter(file, false))
             for (todo in completedTODO!!) {
-                writer.write(todo)
+                writer.write(todo+"\n")
             }
             writer.flush()
             writer.close()
+            arrAdapter!!.notifyDataSetChanged()
         }
+
+        (addItemBtn as TextView).setOnClickListener ( object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                addItem()
+            }
+        })
     }
 
 
@@ -78,11 +81,13 @@ class MainActivity : AppCompatActivity() {
             file.createNewFile()
         }
         val br = BufferedReader(FileReader(file))
-        var line: String
-        while (br.readLine() != null) {
+        var line : String?
+        do {
             line = br.readLine()
+            if (line == null)
+                break
             todoList!!.add(line)
-        }
+        } while (true)
         br.close()
     }
 
@@ -94,11 +99,13 @@ class MainActivity : AppCompatActivity() {
             file.createNewFile()
         }
         val br = BufferedReader(FileReader(file))
-        var line: String
-        while (br.readLine() != null) {
+        var line : String?
+        do {
             line = br.readLine()
+            if (line == null)
+                break
             completedTODO!!.add(line)
-        }
+        } while (true)
         br.close()
     }
 
@@ -113,7 +120,8 @@ class MainActivity : AppCompatActivity() {
         }
         writer.flush()
         writer.close()
-        refresh()
+        arrAdapter!!.notifyDataSetChanged()
+
     }
 
     @Throws(IOException::class)
@@ -123,17 +131,11 @@ class MainActivity : AppCompatActivity() {
         val file = File(path, "todolist.txt")
         val writer = BufferedWriter(FileWriter(file, false))
         for (todo in todoList!!) {
-            writer.write(todo)
+            writer.write(todo+"\n")
         }
         writer.flush()
         writer.close()
-        refresh()
-    }
-
-    private fun refresh() {
-        arrAdapter!!.clear();
-        arrAdapter!!.addAll(todoList);
-        arrAdapter!!.notifyDataSetChanged();
+        arrAdapter!!.notifyDataSetChanged()
     }
 
     private fun ToCompletePage() {

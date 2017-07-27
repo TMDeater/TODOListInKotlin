@@ -60,11 +60,13 @@ class CompletedTODO : AppCompatActivity() {
             file.createNewFile()
         }
         val br = BufferedReader(FileReader(file))
-        var line: String
-        while (br.readLine() != null) {
+        var line : String?
+        do {
             line = br.readLine()
+            if (line == null)
+                break
             completedTODO!!.add(line)
-        }
+        } while (true)
         br.close()
     }
 
@@ -79,13 +81,7 @@ class CompletedTODO : AppCompatActivity() {
         }
         writer.flush()
         writer.close()
-        refresh()
-    }
-
-    private fun refresh() {
-        arrAdapter!!.clear();
-        arrAdapter!!.addAll(completedTODO);
-        arrAdapter!!.notifyDataSetChanged();
+        arrAdapter!!.notifyDataSetChanged()
     }
 
     private fun backPage() {
