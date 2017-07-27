@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
         val file = File(path, "todolist.txt")
         val writer = BufferedWriter(FileWriter(file, false))
         for (todo in todoList!!) {
-            writer.write(todo)
+            writer.write(todo+"\n")
         }
         writer.flush()
         writer.close()

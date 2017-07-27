@@ -77,7 +77,7 @@ class CompletedTODO : AppCompatActivity() {
         val file = File(path, "complete.txt")
         val writer = BufferedWriter(FileWriter(file, false))
         for (todo in completedTODO!!) {
-            writer.write(todo)
+            writer.write(todo+"\n")
         }
         writer.flush()
         writer.close()
